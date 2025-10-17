@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector((state) => state.cart.items);
@@ -16,11 +16,17 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   // ✅ Calculate grand total using useMemo
-  const totalAmount = React.useMemo(() => {
-    if (!Array.isArray(cart) || cart.length === 0) return '0.00';
-    const total = cart.reduce((sum, item) => sum + calculateTotalCost(item), 0);
-    return total.toFixed(2);
-  }, [cart]);
+ const totalAmount = React.useMemo(() => {
+  if (!Array.isArray(cart) || cart.length === 0) return '0.00';
+  let total = 0;
+  cart.forEach((item) => {
+    total += calculateTotalCost(item);
+  });
+  return total.toFixed(2);
+}, [cart]);
+
+
+
 
   // ✅ Calculate subtotals by type (e.g., different plant types)
   const calculateSubtotalsByType = () => {
@@ -52,20 +58,19 @@ const CartItem = ({ onContinueShopping }) => {
     dispatch(removeItem(item.name));
   };
 
- const navigate = useNavigate();
+//  const navigate = useNavigate();
 
-const handleContinueShopping = (e) => {
-  e.preventDefault();
-
+ const handleContinueShopping = () => {
   // If a parent callback is provided, call it (optional)
   if (onContinueShopping) {
     onContinueShopping();
   }
 
-  // Navigate to product list page
-  navigate('/ProductList');
 };
-
+const handleCheckoutShopping = (e) => {
+  e.preventDefault();
+  alert('Functionality to be added for future reference');
+};
 
   return (
     <div className="cart-container">
@@ -127,7 +132,7 @@ const handleContinueShopping = (e) => {
           Continue Shopping
         </button>
         <br />
-        <button className="get-started-button1">Checkout</button>
+        <button className="get-started-button1" onClick={handleCheckoutShopping }>Checkout</button>
       </div>
     </div>
   );

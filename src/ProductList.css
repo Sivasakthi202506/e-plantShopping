@@ -172,6 +172,13 @@ body {
     font-size: 29px;
 
 }
+  .cart-icon {
+    width: 50px; /* Adjust size as needed */
+    height: 40px;
+    stroke: white; /* Outline color */
+    stroke-width: 2; /* Outline thickness */
+    fill: none; /* Make it unfilled */
+  }
 .plantname_heading{
    display: flex;
    align-items: center;
